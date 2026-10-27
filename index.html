@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Public Facility Cleanliness Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap bar">
+    <a class="brand" href="#">Public Facility Cleanliness</a>
+    <nav><a href="#report">Report</a><a href="#facilities">Facilities</a><a href="#mine" data-role="user" hidden>My reports</a><a href="#log" data-role="admin" hidden>Reports</a><a href="#history" data-role="admin" hidden>History</a></nav>
+    <button class="btn ghost sm" id="auth" type="button">Login</button>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="ticker"><h1>Is the public toilet near you clean today?</h1></div>
+    <div class="hero-row">
+      <figure class="hpm"><img src="pm.jpg" alt="Prime Minister of India" onerror="this.parentNode.hidden=true"></figure>
+      <div>
+        <span class="hbadge">Clean India | Green India</span>
+        <p>Rate parks, toilets, bus stops and markets. See which places need attention first.</p>
+      </div>
+    </div>
+    <div class="stats" id="stats"></div>
+  </div>
+</section>
+
+<section class="poster-band" aria-label="Clean India Green India poster slider" aria-roledescription="carousel">
+  <div class="wrap">
+    <div class="poster">
+      <div class="tri" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="pslides">
+        <div class="ptrack" id="ptrack">
+          <div class="pslide pbody">
+            <figure class="pm">
+              <img src="pm.jpg" alt="Prime Minister of India" onerror="this.parentNode.classList.add('nophoto')">
+              <div class="ph">Photo yahan lagayein<br><small>pm.jpg</small></div>
+              <figcaption>Hon'ble Prime Minister of India</figcaption>
+            </figure>
+            <div class="ptext">
+              <h2>Clean India <span>Green India</span></h2>
+              <p>Keep public places clean. Report dirty facilities. Plant, protect and keep our country green.</p>
+              <a class="btn" href="#report">Report a dirty place</a>
+            </div>
+          </div>
+          <div class="pslide pbody">
+            <div class="pbadge b1" aria-hidden="true">&#129529;</div>
+            <div class="ptext">
+              <h2>Clean India</h2>
+              <p>Toilets, parks and bus stops belong to all of us. Rate them and report the dirty ones.</p>
+              <a class="btn" href="#report">Rate a place</a>
+            </div>
+          </div>
+          <div class="pslide pbody">
+            <div class="pbadge b2" aria-hidden="true">&#127795;</div>
+            <div class="ptext">
+              <h2 class="g">Green India</h2>
+              <p>Plant a tree, look after your park and say no to plastic bags.</p>
+              <a class="btn" href="#facilities">See cleanest places</a>
+            </div>
+          </div>
+          <div class="pslide pbody">
+            <div class="pbadge b3" aria-hidden="true">&#128247;</div>
+            <div class="ptext">
+              <h2 class="v">Your report matters</h2>
+              <p>Add a photo and live location so the right place gets cleaned first.</p>
+              <a class="btn" href="#report">Report now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pctl">
+        <button class="pbtn" id="pprev" type="button" aria-label="Previous slide">&#8249;</button>
+        <span class="pdots" id="pdots"></span>
+        <button class="pbtn" id="pnext" type="button" aria-label="Next slide">&#8250;</button>
+        <button class="pbtn wide" id="pplay" type="button">Pause</button>
+      </div>
+      <div class="tri" aria-hidden="true"><i></i><i></i><i></i></div>
+    </div>
+  </div>
+</section>
+
+<main class="wrap">
+  <section id="report" class="panel">
+    <h2>Report a facility</h2>
+    <form id="form">
+      <div class="grid">
+        <label>Facility type
+          <select id="type" required>
+            <option>Public toilet</option><option>Park</option><option>Bus stop</option>
+            <option>Railway station</option><option>Market</option><option>Hospital</option>
+          </select>
+        </label>
+        <label>Location name
+          <input id="place" required maxlength="60" placeholder="e.g. Gandhi Park, Gate 2">
+        </label>
+      </div>
+      <fieldset>
+        <legend>Cleanliness rating</legend>
+        <div class="rate" id="rate">
+          <label><input type="radio" name="r" value="1" required>1 Very dirty</label>
+          <label><input type="radio" name="r" value="2">2 Dirty</label>
+          <label><input type="radio" name="r" value="3">3 Average</label>
+          <label><input type="radio" name="r" value="4">4 Clean</label>
+          <label><input type="radio" name="r" value="5">5 Spotless</label>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Problems seen (optional)</legend>
+        <div class="chips">
+          <label><input type="checkbox" value="Garbage">Garbage</label>
+          <label><input type="checkbox" value="Bad smell">Bad smell</label>
+          <label><input type="checkbox" value="No water">No water</label>
+          <label><input type="checkbox" value="Broken fittings">Broken fittings</label>
+          <label><input type="checkbox" value="No dustbin">No dustbin</label>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Photo of the place (optional)</legend>
+        <input type="file" id="photo" accept="image/*" capture="environment">
+        <img id="prev" class="prev" alt="Photo preview" hidden>
+      </fieldset>
+      <fieldset>
+        <legend>Location</legend>
+        <button class="btn ghost sm" id="geo" type="button">Use my live location</button>
+        <p class="hint" id="locout" aria-live="polite">Not added yet.</p>
+      </fieldset>
+      <label>Comment
+        <textarea id="note" rows="3" maxlength="200" placeholder="What did you notice?"></textarea>
+      </label>
+      <button class="btn" type="submit">Submit report</button>
+    </form>
+  </section>
+
+  <section id="mine" class="panel" data-role="user" hidden>
+    <h2>My reports</h2>
+    <p class="muted">Only you can see this block. Track the status of your reports.</p>
+    <div id="minelist"></div>
+  </section>
+
+  <section id="facilities" class="panel">
+    <h2>Facilities ranked by cleanliness</h2>
+    <p class="muted">Lowest average first, so the worst places come up on top.</p>
+    <div id="rank"></div>
+  </section>
+
+  <section id="log" class="panel" data-role="admin" hidden>
+    <div class="head">
+      <h2>Admin: all reports</h2>
+      <div class="tools">
+        <select id="filter" aria-label="Filter by type"><option value="">All types</option></select>
+        <button class="btn ghost" id="csv" type="button">Download CSV</button>
+      </div>
+    </div>
+    <p class="muted" id="adminsum"></p>
+    <div id="list"></div>
+  </section>
+  <section id="history" class="panel" data-role="admin" hidden>
+    <h2>Admin: reporter history</h2>
+    <p class="muted" id="hcount"></p>
+    <div id="hist"></div>
+  </section>
+</main>
+<footer class="wrap foot">Public Facility Cleanliness mini project.</footer>
+<dialog id="dlg">
+  <div class="tabs"><button type="button" id="tabu" class="on">User</button><button type="button" id="taba">Admin</button></div>
+  <div id="uform">
+    <h2>User login</h2>
+    <label>Mobile number
+      <input id="phone" inputmode="numeric" maxlength="10" placeholder="10-digit number">
+    </label>
+    <button class="btn" id="send" type="button">Send OTP</button>
+    <div id="step2" hidden>
+      <label>Enter 6-digit OTP
+        <input id="code" inputmode="numeric" maxlength="6" autocomplete="one-time-code">
+      </label>
+      <button class="btn" id="verify" type="button">Verify and login</button>
+      <p class="demo" id="demo"></p>
+      <input type="hidden" id="pending">
+    </div>
+  </div>
+  <div id="aform" hidden>
+    <h2>Admin login</h2>
+    <label>Admin ID
+      <input id="aid" autocomplete="username">
+    </label>
+    <label>Password
+      <input id="apw" type="password" autocomplete="current-password">
+    </label>
+    <button class="btn" id="alogin" type="button">Login as admin</button>
+  </div>
+  <p class="hint" id="lmsg" aria-live="polite"></p>
+  <button class="del" id="lclose" type="button">Cancel</button>
+</dialog>
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+{"name":"public-facility-cleanliness","version":"1.0.0","description":"Public Facility Cleanliness Tracker","main":"server.js","scripts":{"start":"node server.js"},"license":"MIT"}
